@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/codefresh-contrib/python-flask-sample-app.git'
+                git credentialsId: '1bd8b51f-64f2-4b96-925f-d2eeb534cf8f', url: 'https://github.com/codefresh-contrib/python-flask-sample-app.git'
             }
         }
         stage('Build Docker Image') {
@@ -34,8 +34,14 @@ pipeline {
                     git remote add team-repo https://github.com/AbdullahElmasry/DevOps_engineer_track_project_DEPI.git
                     '''
                     
-                    // دفع التغييرات إلى الـ remote repository
-                    sh 'git push team-repo master' // تأكد من أنك في الفرع الصحيح
+                    // دفع التغييرات إلى الـ remote repository مع بيانات الاعتماد
+                    withCredentials([usernamePassword(credentialsId: '1bd8b51f-64f2-4b96-925f-d2eeb534cf8f', usernameVariable: 'GITHUB_USER', passwordVariable: 'GITHUB_PASS')]) {
+                        sh '''
+                        git config user.name "$GITHUB_USER"
+                        git config user.password "$GITHUB_PASS"
+                        git push team-repo master
+                        '''
+                    }
                 }
             }
         }
