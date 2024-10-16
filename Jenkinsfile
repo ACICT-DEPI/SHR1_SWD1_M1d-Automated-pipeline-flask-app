@@ -38,7 +38,7 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: '1bd8b51f-64f2-4b96-925f-d2eeb534cf8f', usernameVariable: 'GITHUB_USER', passwordVariable: 'GITHUB_PASS')]) {
                         sh '''
                         git config --global user.name "$GITHUB_USER"
-                        git config --global user.password "$GITHUB_PASS"
+                        git config --global user.email "$GITHUB_USER_EMAIL"  // تأكد من تعيين بريد إلكتروني لمستخدم Git
                         git push team-repo master
                         '''
                     }
@@ -47,3 +47,4 @@ pipeline {
         }
     }
 }
+
