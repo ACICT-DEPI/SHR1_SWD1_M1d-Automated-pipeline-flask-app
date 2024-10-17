@@ -51,13 +51,13 @@ pipeline {
                     git config --global user.email "611afnanmohamed@gmail.com"
                     git add .
 
-                    // Check if there are changes to commit
-                    if (sh(script: 'git diff --cached --quiet', returnStatus: true) != 0) {
-                        sh 'git commit -m "Automated commit from Jenkins"'
-                        sh 'git push team-repo main'
-                    } else {
+                    # Check if there are changes to commit
+                    if [ "$(git diff --cached --quiet; echo $?)" -ne 0 ]; then
+                        git commit -m "Automated commit from Jenkins" || true
+                        git push team-repo main
+                    else
                         echo "لا توجد تغييرات لارتكابها"
-                    }
+                    fi
                     '''
                 }
             }
