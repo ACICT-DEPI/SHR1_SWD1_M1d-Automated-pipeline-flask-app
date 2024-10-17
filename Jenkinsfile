@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         APP_NAME = "flask-app"
-        GITHUB_USER_EMAIL = "611afnanmohamed@gmail.com" 
+        GITHUB_USER_EMAIL = "611afnanmohamed@gmail.com"  // أدخل هنا البريد الإلكتروني للفريق 
     }
     stages {
         stage('Clone Repository') {
@@ -40,7 +40,7 @@ pipeline {
                         sh '''
                         git config --global user.name "$GITHUB_USER"
                         git config --global user.email "$GITHUB_USER_EMAIL"
-                        git add .  // تأكد من إضافة جميع التغييرات
+                        git add .  # تأكد من إضافة جميع التغييرات
                         git commit -m "Automated commit from Jenkins"
                         git push team-repo master
                         '''
@@ -50,4 +50,5 @@ pipeline {
         }
     }
 }
+
 
