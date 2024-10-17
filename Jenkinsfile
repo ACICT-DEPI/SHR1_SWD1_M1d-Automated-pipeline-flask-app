@@ -41,8 +41,12 @@ pipeline {
                         git config --global user.name "$GITHUB_USER"
                         git config --global user.email "$GITHUB_USER_EMAIL"
                         git add .  # تأكد من إضافة جميع التغييرات
-                        git commit -m "Automated commit from Jenkins"
-                        git push team-repo master
+                        if ! git diff --cached --quiet; then  # تحقق من وجود تغييرات
+                            git commit -m "Automated commit from Jenkins" || true
+                            git push team-repo master
+                        else
+                            echo "لا توجد تغييرات لارتكابها"
+                        fi
                         '''
                     }
                 }
@@ -50,6 +54,7 @@ pipeline {
         }
     }
 }
+
 
 
 
