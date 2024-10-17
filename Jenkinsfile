@@ -35,13 +35,15 @@ pipeline {
                     git remote add team-repo https://github.com/AbdullahElmasry/DevOps_engineer_track_project_DEPI.git
                     '''
                     
-                    // دفع التغييرات إلى الـ remote repository مع بيانات الاعتماد
+                    // إعداد بيانات الاعتماد
                     withCredentials([usernamePassword(credentialsId: '1bd8b51f-64f2-4b96-925f-d2eeb534cf8f', usernameVariable: 'GITHUB_USER', passwordVariable: 'GITHUB_PASS')]) {
                         sh '''
                         git config --global user.name "$GITHUB_USER"
                         git config --global user.email "$GITHUB_USER_EMAIL"
                         git add .  # تأكد من إضافة جميع التغييرات
-                        if ! git diff --cached --quiet; then  # تحقق من وجود تغييرات
+
+                        // تحقق من وجود تغييرات لإجراء commit
+                        if ! git diff --cached --quiet; then
                             git commit -m "Automated commit from Jenkins" || true
                             git push team-repo master
                         else
