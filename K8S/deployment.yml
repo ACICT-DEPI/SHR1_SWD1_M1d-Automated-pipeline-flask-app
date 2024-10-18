@@ -1,0 +1,26 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-app
+  namespace: python-flask-app
+  labels:
+    app: flask-python-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask-python-app
+  template:
+    metadata:
+      labels:
+        app: flask-python-app
+    spec:
+      containers:
+      - name: flask-app
+        image: khaledmemi/flask-app:latest  # Your Docker image
+        ports:
+        - containerPort: 5000
+        env:  # Optional: Add environment variables if needed
+        - name: FLASK_ENV
+          value: "development"  # Example environment variable
