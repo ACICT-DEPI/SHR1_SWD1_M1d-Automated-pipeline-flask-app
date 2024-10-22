@@ -30,6 +30,16 @@ pipeline {
             }
         }
 
+        stage('Login to Docker Hub') {
+            steps {
+                script {
+                    sh '''
+                    echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+                    '''
+                }
+            }
+        }
+
         stage('Push Docker Image to Registry') {
             steps {
                 script {
@@ -44,7 +54,6 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 script {
-                    // Use kubectl to apply the Kubernetes manifest
                     sh '''
                     kubectl apply -f K8S/deployment.yml
                     kubectl apply -f K8S/service.yml
@@ -56,7 +65,6 @@ pipeline {
         stage('Verify Deployment') {
             steps {
                 script {
-                    // Optional: check if the deployment was successful
                     sh '''
                     kubectl rollout status deployment/flask-app -n python-flask-app
                     '''
