@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_USERNAME = 'afnandior'
         DOCKER_PASSWORD = 'docker_1234'
-        KUBECONFIG = '/var/lib/jenkins/.kube/config' // استخدام المسار الجديد
+        KUBECONFIG = '/var/lib/jenkins/.kube/config' // استخدام المسار الصحيح
     }
 
     stages {
@@ -99,4 +99,3 @@ pipeline {
         }
     }
 }
-
