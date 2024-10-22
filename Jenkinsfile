@@ -4,6 +4,7 @@ pipeline {
     environment {
         DOCKER_USERNAME = 'afnandior'
         DOCKER_PASSWORD = 'docker_1234'
+        KUBECONFIG = '/home/afnan/.kube/config' // إضافة المتغير هنا
     }
 
     stages {
@@ -44,7 +45,7 @@ pipeline {
             }
         }
 
-        stage('Check Kubernetes Access') { // تم إضافة هذه المرحلة
+        stage('Check Kubernetes Access') { 
             steps {
                 script {
                     sh '''
