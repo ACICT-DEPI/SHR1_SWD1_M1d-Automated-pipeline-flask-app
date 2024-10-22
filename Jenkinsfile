@@ -30,11 +30,35 @@ pipeline {
             }
         }
 
-        stage('Run Docker Container') {
+        stage('Push Docker Image to Registry') {
             steps {
                 script {
                     sh '''
-                    docker run -d -p 5000:5000 flask-app
+                    docker tag flask-app afnandior/flask-app:latest
+                    docker push afnandior/flask-app:latest
+                    '''
+                }
+            }
+        }
+
+        stage('Deploy to Kubernetes') {
+            steps {
+                script {
+                    // Use kubectl to apply the Kubernetes manifest
+                    sh '''
+                    kubectl apply -f K8S/deployment.yml
+                    kubectl apply -f K8S/service.yml
+                    '''
+                }
+            }
+        }
+
+        stage('Verify Deployment') {
+            steps {
+                script {
+                    // Optional: check if the deployment was successful
+                    sh '''
+                    kubectl rollout status deployment/flask-app -n python-flask-app
                     '''
                 }
             }
