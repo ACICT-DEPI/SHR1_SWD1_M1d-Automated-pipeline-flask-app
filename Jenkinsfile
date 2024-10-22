@@ -48,8 +48,17 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    minikube kubectl -- config use-context minikube
-                    minikube kubectl -- apply -f K8S/deployment.yml
+                    minikube kubectl -- apply -f K8S/deployment.yml -n python-flask-app
+                    '''
+                }
+            }
+        }
+
+        stage('Check Kubernetes Access') {
+            steps {
+                script {
+                    sh '''
+                    minikube kubectl -- get pods -n python-flask-app
                     '''
                 }
             }
@@ -59,7 +68,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    minikube kubectl -- get pods
+                    minikube kubectl -- get pods -n python-flask-app
                     '''
                 }
             }
@@ -89,3 +98,4 @@ pipeline {
         }
     }
 }
+
