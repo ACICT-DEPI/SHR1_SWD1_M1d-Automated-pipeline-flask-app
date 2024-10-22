@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_USERNAME = 'afnandior'
         DOCKER_PASSWORD = 'docker_1234'
-        KUBECONFIG = '/home/afnan/.kube/config' // استخدام المسار الصحيح
+        KUBECONFIG = '/tmp/kube/config' // استخدام المسار الجديد
     }
 
     stages {
@@ -99,3 +99,4 @@ pipeline {
         }
     }
 }
+
