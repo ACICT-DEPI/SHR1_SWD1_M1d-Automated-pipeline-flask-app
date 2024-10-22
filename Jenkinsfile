@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    environment {
+        DOCKER_USERNAME = 'afnandior'
+        DOCKER_PASSWORD = 'docker_1234'
+    }
+
     stages {
         stage('Checkout SCM') {
             steps {
@@ -8,13 +13,11 @@ pipeline {
             }
         }
 
-        stage('Clone Repository') {
+        stage('Docker Login') {
             steps {
                 script {
-                    // Clone the team repository
                     sh '''
-                    git remote remove team-repo || true
-                    git remote add team-repo https://github.com/codefresh-contrib/python-flask-sample-app.git
+                    echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
                     '''
                 }
             }
@@ -25,16 +28,6 @@ pipeline {
                 script {
                     sh '''
                     docker build -t flask-app .
-                    '''
-                }
-            }
-        }
-
-        stage('Login to Docker Hub') {
-            steps {
-                script {
-                    sh '''
-                    echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
                     '''
                 }
             }
@@ -55,8 +48,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    kubectl apply -f K8S/deployment.yml
-                    kubectl apply -f K8S/service.yml
+                    minikube kubectl -- apply -f K8S/deployment.yml
                     '''
                 }
             }
@@ -66,7 +58,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    kubectl rollout status deployment/flask-app -n python-flask-app
+                    minikube kubectl -- get pods
                     '''
                 }
             }
@@ -96,5 +88,4 @@ pipeline {
         }
     }
 }
-
 
