@@ -44,21 +44,21 @@ pipeline {
             }
         }
 
-        stage('Deploy to Kubernetes') {
+        stage('Check Kubernetes Access') { // تم إضافة هذه المرحلة
             steps {
                 script {
                     sh '''
-                    minikube kubectl -- apply -f K8S/deployment.yml -n python-flask-app
+                    minikube kubectl -- get nodes
                     '''
                 }
             }
         }
 
-        stage('Check Kubernetes Access') {
+        stage('Deploy to Kubernetes') {
             steps {
                 script {
                     sh '''
-                    minikube kubectl -- get pods -n python-flask-app
+                    minikube kubectl -- apply -f K8S/deployment.yml -n python-flask-app
                     '''
                 }
             }
