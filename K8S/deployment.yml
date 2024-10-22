@@ -1,9 +1,8 @@
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: flask-app
-  namespace: python-flask-app
+  namespace: python-flask-app  # تأكد من أن هذا الـ namespace موجود
   labels:
     app: flask-python-app
 spec:
@@ -18,7 +17,7 @@ spec:
     spec:
       containers:
       - name: flask-app
-        image: khaledmemi/flask-app:latest  # Your Docker image
+        image: afnandior/flask-app:latest  # Your Docker image
         ports:
         - containerPort: 5000
         env:  # Optional: Add environment variables if needed
