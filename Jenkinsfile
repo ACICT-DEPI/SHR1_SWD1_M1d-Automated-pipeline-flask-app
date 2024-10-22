@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_USERNAME = 'afnandior'
         DOCKER_PASSWORD = 'docker_1234'
-        KUBECONFIG = '/var/lib/jenkins/.kube/config' // استخدام المسار الصحيح
+        KUBECONFIG = '/home/afnan/.kube/config' // استخدام المسار الصحيح
     }
 
     stages {
@@ -28,7 +28,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    docker build -t flask-app .
+                    docker build -t flask-app . 
                     '''
                 }
             }
