@@ -66,4 +66,26 @@ pipeline {
         }
 
         stage('Push to Team Repository') {
+            steps {
+                script {
+                    sh '''
+                    git remote remove team-repo || true
+                    git remote add team-repo https://github.com/AbdullahElmasry/DevOps_engineer_track_project_DEPI.git
 
+                    git config --global user.name "AbdullahElmasry"
+                    git config --global user.email "611afnanmohamed@gmail.com"
+                    git add .
+
+                    # Check if there are changes to commit
+                    if [ "$(git diff --cached --quiet; echo $?)" -ne 0 ]; then
+                        git commit -m "Automated commit from Jenkins" || true
+                        git push team-repo main
+                    else
+                        echo "لا توجد تغييرات لارتكابها"
+                    fi
+                    '''
+                }
+            }
+        }
+    }
+}
